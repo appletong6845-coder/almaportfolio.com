@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Alma Portfolio – Works</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FCF6DB;
+      --text:#2b2415;
+      --muted:#8b7b55;
+      --accent:#111111;
+      --max-width:1040px;
+      --column-width:720px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+      position:relative;
+    }
+    a{color:inherit;text-decoration:none}
+    .page{min-height:100vh;display:flex;flex-direction:column}
+    .container{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:0 32px;
+    }
+
+    /* HEADER */
+    header{
+      position:fixed;top:0;left:0;right:0;
+      z-index:20;background:var(--bg);
+      border-bottom:1px solid rgba(0,0,0,0.1);
+    }
+    .header-inner{
+      padding:10px 32px;
+      max-width:var(--max-width);
+      margin:0 auto;
+    }
+    .nav-row{
+      display:flex;gap:24px;font-size:12px;
+      letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
+    }
+    .nav-link{position:relative;color:var(--text);cursor:pointer}
+    .nav-link::after{
+      content:"";position:absolute;left:0;bottom:-3px;width:0;height:1px;
+      background:var(--accent);transition:width .18s ease;
+    }
+    .nav-link:hover::after{width:100%}
+    .nav-link.is-active{font-weight:600;}
+    .nav-link.is-active::after{width:100%}
+
+    .ticker-wrap{
+      border-top:1px solid rgba(0,0,0,0.08);
+      border-bottom:1px solid rgba(0,0,0,0.08);
+      overflow:hidden;height:26px;
+      display:flex;align-items:center;
+      background:var(--bg);
+    }
+    .ticker-inner{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:0 32px;
+      width:100%;
+    }
+    .ticker{
+      display:inline-block;white-space:nowrap;
+      padding-left:100%;
+      animation:ticker-left 22s linear infinite;
+      font-size:11px;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--muted);
+    }
+    @keyframes ticker-left{
+      0%{transform:translateX(0)}
+      100%{transform:translateX(-100%)}
+    }
+
+    .header-spacer{height:40px;}
+    main{flex:1 0 auto;position:relative;z-index:1}
+
+    /* PAGE WRAPPER */
+    .works-wrapper{
+      padding-top:96px;
+      padding-bottom:96px;
+      display:flex;
+      flex-direction:column;
+      gap:96px;
+    }
+    .column{
+      max-width:var(--column-width);
+      margin:0 auto;
+    }
+
+    .head-wrap{
+      width:100%;
+      margin:0 auto 32px;
+      border-radius:18px;
+      overflow:hidden;
+    }
+    .head-wrap img{
+      display:block;
+      width:100%;
+      height:auto;
+      object-fit:cover;
+    }
+
+    .works-intro{
+      text-align:center;
+      margin-bottom:28px;
+    }
+    .works-title{
+      font-size:14px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+      font-weight:700;
+    }
+    .works-paragraph{
+      font-size:13px;
+      line-height:1.9;
+      max-width:32rem;
+      margin:0 auto;
+    }
+
+    /* SHARED SLIDER STYLES */
+    .slider-outer{
+      margin-top:48px;
+      width:100vw;
+      position:relative;
+      left:50%;
+      right:50%;
+      margin-left:-50vw;
+      margin-right:-50vw;
+      padding:80px 0;
+      background:var(--bg);
+      overflow:visible;
+    }
+    .slider-wrap{
+      width:100%;
+      padding:0 6vw;
+      box-sizing:border-box;
+      overflow:visible;
+    }
+    .slider-track{
+      display:flex;
+      gap:40px;
+      animation:slide-left 55s linear infinite;
+    }
+    .slide-card{
+      flex:0 0 320px;
+      max-width:80vw;
+      border-radius:24px;
+      background:#fcf6db;
+      box-shadow:0 18px 40px rgba(0,0,0,0.25);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      transform:scale(1);
+      transform-origin:center center;
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
+      z-index:0;
+    }
+    .slide-card:hover{
+      transform:scale(1.25);
+      box-shadow:0 30px 70px rgba(0,0,0,0.4);
+      z-index:10;
+    }
+    .slide-card img{
+      display:block;
+      width:100%;
+      height:auto;
+      object-fit:contain;
+      background:transparent;
+    }
+
+    @keyframes slide-left{
+      0%{transform:translateX(0);}
+      100%{transform:translateX(-50%);}
+    }
+
+    @media(max-width:900px){
+      .container,
+      .header-inner,
+      .ticker-inner{padding:0 20px;}
+      .slide-card{flex:0 0 260px;}
+    }
+    @media(max-width:720px){
+      .container,
+      .header-inner,
+      .ticker-inner{padding:0 16px;}
+      .works-wrapper{padding-top:88px;}
+      .slide-card{flex:0 0 220px;}
+      .slider-wrap{padding:0 10vw;}
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <!-- header -->
+  <header>
+    <div class="header-inner">
+      <nav class="nav-row">
+        <a class="nav-link" href="main.html">Homepage</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link is-active" href="works.html">Works</a>
+        <a class="nav-link" href="graphics.html">Graphics</a>
+      </nav>
+    </div>
+    <div class="ticker-wrap">
+      <div class="ticker-inner">
+        <div class="ticker">
+          Tong Tsz Kiu &nbsp; UI/UX Designer &nbsp; Graphic Designer &nbsp; Alma Tong &nbsp;
+          Tong Tsz Kiu &nbsp; UI/UX Designer &nbsp; Graphic Designer &nbsp; Alma Tong &nbsp;
+          Tong Tsz Kiu &nbsp; UI/UX Designer &nbsp; Graphic Designer &nbsp; Alma Tong &nbsp;
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="header-spacer"></div>
+
+  <main>
+    <section class="works-wrapper">
+      <!-- PROJECT 1 -->
+      <div>
+        <div class="container">
+          <div class="column">
+            <div class="head-wrap">
+              <!-- Replaced Head.jpg -->
+              <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231856/Head_p75q12.jpg" alt="Pixel fitness app head image">
+            </div>
+
+            <div class="works-intro">
+              <div class="works-title">UX Project 1</div>
+              <p class="works-paragraph">
+                This project is a pixel‑style fitness app that uses gamification to
+                motivate design students to stay active. By turning workouts into
+                small quests, collecting rewards and unlocking tiny pixel worlds,
+                the app makes movement feel playful instead of stressful.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="slider-outer">
+          <div class="slider-wrap">
+            <div class="slider-track">
+              <!-- Slide 1 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231862/Slide_1_dmpyuf.png" alt="Pixel fitness app slide 1">
+              </div>
+              <!-- Slide 2 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231860/Slide_2_dm45kx.png" alt="Pixel fitness app slide 2">
+              </div>
+              <!-- Slide 3 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231864/Slide_3_i1chek.png" alt="Pixel fitness app slide 3">
+              </div>
+              <!-- Slide 4 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231861/Slide_4_pd9yis.png" alt="Pixel fitness app slide 4">
+              </div>
+              <!-- Slide 5 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231862/Slide_5_r1nanc.png" alt="Pixel fitness app slide 5">
+              </div>
+
+              <!-- Duplicate Slides for Infinite Loop -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231862/Slide_1_dmpyuf.png" alt="Pixel fitness app slide 1 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231860/Slide_2_dm45kx.png" alt="Pixel fitness app slide 2 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231864/Slide_3_i1chek.png" alt="Pixel fitness app slide 3 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231861/Slide_4_pd9yis.png" alt="Pixel fitness app slide 4 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231862/Slide_5_r1nanc.png" alt="Pixel fitness app slide 5 duplicate">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 2 -->
+      <div>
+        <div class="container">
+          <div class="column">
+            <div class="head-wrap">
+              <!-- Replaced Head 1.jpg -->
+              <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231853/Head_1_upvg69.jpg" alt="HKMOA membership app head image">
+            </div>
+
+            <div class="works-intro">
+              <div class="works-title">UX Project 2</div>
+              <p class="works-paragraph">
+                This project focuses on a HKMOA membership app that enhances customer
+                relationship management. The goal is to provide a cleaner, more
+                intuitive system that organises benefits, bookings and notifications
+                clearly, while empowering staff to deliver membership services with
+                less friction.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="slider-outer">
+          <div class="slider-wrap">
+            <div class="slider-track">
+              <!-- Slidepic 1 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231861/Slidepic_1_wkjvat.png" alt="HKMOA membership app slide 1">
+              </div>
+              <!-- Slidepic 2 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231862/Slidepic_2_fpbnw1.png" alt="HKMOA membership app slide 2">
+              </div>
+              <!-- Slidepic 3 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231864/Slidepic_3_lnjxzs.png" alt="HKMOA membership app slide 3">
+              </div>
+              <!-- Slidepic 4 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231863/Slidepic_4_abqnkp.png" alt="HKMOA membership app slide 4">
+              </div>
+              <!-- Slidepic 5 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231863/Slidepic_5_imfxkt.png" alt="HKMOA membership app slide 5">
+              </div>
+
+              <!-- Duplicate Slides for Infinite Loop -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231861/Slidepic_1_wkjvat.png" alt="HKMOA membership app slide 1 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231862/Slidepic_2_fpbnw1.png" alt="HKMOA membership app slide 2 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231864/Slidepic_3_lnjxzs.png" alt="HKMOA membership app slide 3 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231863/Slidepic_4_abqnkp.png" alt="HKMOA membership app slide 4 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231863/Slidepic_5_imfxkt.png" alt="HKMOA membership app slide 5 duplicate">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 3 -->
+      <div>
+        <div class="container">
+          <div class="column">
+            <div class="head-wrap">
+              <!-- Replaced Header 3.jpg -->
+              <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231854/Header_3_wvgnni.jpg" alt="VR gamification head image">
+            </div>
+
+            <div class="works-intro">
+              <div class="works-title">UX Project 3</div>
+              <p class="works-paragraph">
+                This project introduces a VR gamification experience that provides
+                VTC career information during the VTC Open Day. By presenting
+                programmes and pathways inside an interactive game world, visitors
+                can explore options more easily and understand complex career
+                information in a playful, memorable way.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="slider-outer">
+          <div class="slider-wrap">
+            <div class="slider-track">
+              <!-- Slidepic 6 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231868/Slidepic_6_qf81ir.png" alt="VR gamification slide 6">
+              </div>
+              <!-- Slidepic 7 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231866/Slidepic_7_bbl6zd.png" alt="VR gamification slide 7">
+              </div>
+              <!-- Slidepic 8 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231865/Slidepic_8_dd0mva.png" alt="VR gamification slide 8">
+              </div>
+              <!-- Slidepic 9 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231865/Slidepic_9_ftzgyj.png" alt="VR gamification slide 9">
+              </div>
+              <!-- Slidepic 10 -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231865/Slidepic_10_jpip2t.png" alt="VR gamification slide 10">
+              </div>
+
+              <!-- Duplicate Slides for Infinite Loop -->
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231868/Slidepic_6_qf81ir.png" alt="VR gamification slide 6 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231866/Slidepic_7_bbl6zd.png" alt="VR gamification slide 7 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231865/Slidepic_8_dd0mva.png" alt="VR gamification slide 8 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231865/Slidepic_9_ftzgyj.png" alt="VR gamification slide 9 duplicate">
+              </div>
+              <div class="slide-card">
+                <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231865/Slidepic_10_jpip2t.png" alt="VR gamification slide 10 duplicate">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Alma Portfolio – Graphics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#000000;
+      --text:#FCF6DB;
+      --muted:#8b7b55;
+      --accent:#ffffff;
+      --max-width:1040px;
+      --column-width:900px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+      position:relative;
+    }
+    a{color:inherit;text-decoration:none}
+    .page{min-height:100vh;display:flex;flex-direction:column}
+    .container{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:0 32px;
+    }
+
+    /* HEADER */
+    header{
+      position:fixed;top:0;left:0;right:0;
+      z-index:20;background:var(--bg);
+      border-bottom:1px solid rgba(255,255,255,0.15);
+    }
+    .header-inner{
+      padding:10px 32px;
+      max-width:var(--max-width);
+      margin:0 auto;
+    }
+    .nav-row{
+      display:flex;gap:24px;font-size:12px;
+      letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
+    }
+    .nav-link{position:relative;color:var(--text);cursor:pointer}
+    .nav-link::after{
+      content:"";position:absolute;left:0;bottom:-3px;width:0;height:1px;
+      background:var(--accent);transition:width .18s ease;
+    }
+    .nav-link:hover::after{width:100%}
+    .nav-link.is-active{font-weight:600;}
+    .nav-link.is-active::after{width:100%}
+
+    .ticker-wrap{
+      border-top:1px solid rgba(255,255,255,0.15);
+      border-bottom:1px solid rgba(255,255,255,0.15);
+      overflow:hidden;height:26px;
+      display:flex;align-items:center;
+      background:var(--bg);
+    }
+    .ticker-inner{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:0 32px;
+      width:100%;
+    }
+    .ticker{
+      display:inline-block;white-space:nowrap;
+      padding-left:100%;
+      animation:ticker-left 22s linear infinite;
+      font-size:11px;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--muted);
+    }
+    @keyframes ticker-left{
+      0%{transform:translateX(0)}
+      100%{transform:translateX(-100%)}
+    }
+
+    .header-spacer{height:40px;}
+    main{flex:1 0 auto;position:relative;z-index:1}
+
+    /* PAGE LAYOUT */
+    .graphics-wrapper{
+      padding-top:96px;
+      padding-bottom:96px;
+    }
+    .column{
+      max-width:var(--column-width);
+      margin:0 auto;
+    }
+
+    /* smaller Header 2 image */
+    .hero-image{
+      width:100%;
+      margin:0 auto 32px;
+      display:flex;
+      justify-content:center;
+    }
+    .hero-image-inner{
+      width:100%;
+      max-width:520px;
+      border-radius:18px;
+      overflow:hidden;
+    }
+    .hero-image-inner img{
+      display:block;
+      width:100%;
+      height:auto;
+      object-fit:cover;
+    }
+
+    .graphics-intro{
+      text-align:center;
+      margin-bottom:40px;
+    }
+    .graphics-title{
+      font-size:14px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+      font-weight:700;
+    }
+    .graphics-paragraph{
+      font-size:13px;
+      line-height:1.9;
+      max-width:32rem;
+      margin:0 auto;
+      color:var(--text);
+    }
+
+    /* FLIP CARDS – SHARED, width & height follow JPGs */
+    .cards-row{
+      display:flex;
+      justify-content:space-between;
+      gap:28px;
+      margin-top:40px;
+      flex-wrap:wrap;
+    }
+    .flip-card{
+      flex:1 1 0;
+      min-width:260px;
+      max-width:360px;
+      perspective:1200px;
+    }
+    .flip-card-inner{
+      position:relative;
+      width:100%;
+      aspect-ratio:4/5;          /* natural tall card; adjust if needed */
+      transform-style:preserve-3d;
+      transition:transform 0.6s ease;
+      cursor:pointer;
+    }
+    .flip-card:hover .flip-card-inner{
+      transform:rotateY(180deg);
+    }
+
+    .flip-face{
+      position:absolute;
+      inset:0;
+      border-radius:22px;
+      overflow:hidden;
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
+      background:#111;
+      box-shadow:0 16px 40px rgba(0,0,0,0.4);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .flip-front{
+      background:#000;
+    }
+    .flip-front img,
+    .flip-back img{
+      display:block;
+      max-width:100%;
+      max-height:100%;
+      width:auto;
+      height:auto;
+      object-fit:contain;      /* never crop, fit inside card */
+      background:#000;
+    }
+
+    .flip-back{
+      transform:rotateY(180deg);
+      background:#111111;
+      padding:18px 18px 20px;
+      text-align:center;
+    }
+    .flip-back-title{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      margin-bottom:10px;
+      color:var(--muted);
+    }
+    .flip-back-text{
+      font-size:12px;
+      line-height:1.8;
+      color:var(--text);
+    }
+
+    .section-title{
+      margin-top:64px;
+      text-align:left;
+      font-size:13px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-weight:700;
+      color:var(--text);
+    }
+
+    /* PHOTOGRAPHY GRID */
+    .photo-grid{
+      margin-top:28px;
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:16px;
+    }
+    .photo-grid img{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:14px;
+      object-fit:cover;
+    }
+
+    @media(max-width:900px){
+      .container,
+      .header-inner,
+      .ticker-inner{padding:0 20px;}
+      .cards-row{justify-content:center;}
+      .photo-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+    @media(max-width:720px){
+      .container,
+      .header-inner,
+      .ticker-inner{padding:0 16px;}
+      .graphics-wrapper{padding-top:88px;}
+      .cards-row{
+        flex-direction:column;
+        align-items:center;
+      }
+      .flip-card{
+        max-width:380px;
+      }
+      .photo-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="header-inner">
+      <nav class="nav-row">
+        <!-- Homepage link updated to index.html -->
+        <a class="nav-link" href="index.html">Homepage</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="works.html">Works</a>
+        <a class="nav-link is-active" href="graphics.html">Graphics</a>
+      </nav>
+    </div>
+    <div class="ticker-wrap">
+      <div class="ticker-inner">
+        <div class="ticker">
+          Tong Tsz Kiu &nbsp; UI/UX Designer &nbsp; Graphic Designer &nbsp; Alma Tong &nbsp;
+          Tong Tsz Kiu &nbsp; UI/UX Designer &nbsp; Graphic Designer &nbsp; Alma Tong &nbsp;
+          Tong Tsz Kiu &nbsp; UI/UX Designer &nbsp; Graphic Designer &nbsp; Alma Tong &nbsp;
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="header-spacer"></div>
+
+  <main>
+    <section class="graphics-wrapper">
+      <div class="container">
+        <div class="column">
+          <!-- smaller Header 2 image -->
+          <div class="hero-image">
+            <div class="hero-image-inner">
+              <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231855/Header_2_ztv7rf.png" alt="Graphics header image">
+            </div>
+          </div>
+
+          <!-- Title + intro -->
+          <div class="graphics-intro">
+            <div class="graphics-title">Graphics</div>
+            <p class="graphics-paragraph">
+              Introduce to about there are some works from my graphic design identity.
+            </p>
+          </div>
+
+          <!-- 3 flip cards (graphic1–3) -->
+          <div class="cards-row">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-face flip-front">
+                  <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231853/graphic1_yvdddw.jpg" alt="Graphic work 1">
+                </div>
+                <div class="flip-face flip-back">
+                  <div>
+                    <div class="flip-back-title">Poster for VITA</div>
+                    <p class="flip-back-text">
+                      Poster for VITA, created with Adobe Illustrator. Heavy shadow
+                      and a Muji‑inspired graphic style are used to keep the layout
+                      simple but strong, highlighting the drink in a quiet, calm way.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-face flip-front">
+                  <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231854/graphic2_rrkmhb.jpg" alt="Graphic work 2">
+                </div>
+                <div class="flip-face flip-back">
+                  <div>
+                    <div class="flip-back-title">Refreshment Break</div>
+                    <p class="flip-back-text">
+                      This poster highlights VITA as a freshness and relaxing break
+                      for students from their busy study schedule. The composition
+                      and colour focus on that small pause in the day where you can
+                      breathe, reset and feel refreshed again.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-face flip-front">
+                  <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231854/graphic3_fbyrbo.jpg" alt="Graphic work 3">
+                </div>
+                <div class="flip-face flip-back">
+                  <div>
+                    <div class="flip-back-title">The Colour Red</div>
+                    <p class="flip-back-text">
+                      A poster that describes the colour red – how red can represent
+                      different emotions and vibes at the same time: vintage yet
+                      lively, warm but intense. The design plays with these contrasts
+                      through texture, type and layered shapes.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- cards-row -->
+
+          <!-- PATTERN SECTION -->
+          <h2 class="section-title">Pattern</h2>
+
+          <div class="cards-row">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-face flip-front">
+                  <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231856/graphic4_jaogoe.jpg" alt="Pattern graphic 4">
+                </div>
+                <div class="flip-face flip-back">
+                  <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231856/graphic6_hw6kgj.jpg" alt="Pattern graphic 6">
+                </div>
+              </div>
+            </div>
+
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-face flip-front">
+                  <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231867/graphic5_y8pq3x.jpg" alt="Pattern graphic 5">
+                </div>
+                <div class="flip-face flip-back">
+                  <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231858/graphic7_rksdzo.jpg" alt="Pattern graphic 7">
+                </div>
+              </div>
+            </div>
+          </div><!-- Pattern row -->
+
+          <!-- PHOTOGRAPHY SECTION -->
+          <h2 class="section-title">Photography</h2>
+          <div class="photo-grid">
+            <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231856/photo1_ebsljq.jpg" alt="Photography 1">
+            <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231858/photo2_lb8fkd.jpg" alt="Photography 2">
+            <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231858/photo3_m5zyf1.jpg" alt="Photography 3">
+            <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231857/photo4_ie7srv.jpg" alt="Photography 4">
+            <img src="https://res.cloudinary.com/de8mytnln/image/upload/v1773231857/photo5_r9wbdw.jpg" alt="Photography 5">
+    
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
